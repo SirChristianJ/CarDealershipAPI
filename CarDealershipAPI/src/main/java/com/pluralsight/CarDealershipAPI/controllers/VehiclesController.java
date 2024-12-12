@@ -81,4 +81,14 @@ public class VehiclesController {
         return vehicleDao.insert(id,vehicle);
     }
 
+    @RequestMapping(path="/RemoveVehicle", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void removeVehicle(@RequestBody Inventory i)
+    {
+        int id = i.getID();
+        Vehicle vehicle = i.getVehicle();
+
+        vehicleDao.delete(id,vehicle);
+    }
+
 }

@@ -296,6 +296,23 @@ public class JdbcVehicleDao implements VehicleDao {
         return v;
     }
 
+    @Override
+    public void delete(int dealershipID, Vehicle vehicle) {
+        String sql =
+                """
+                DELETE FROM cardealership.inventory WHERE vin = (?);
+                """;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1,vehicle.getVin());
+            int row = preparedStatement.executeUpdate();
+            System.out.printf("Updated rows: %d", row);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
 
 

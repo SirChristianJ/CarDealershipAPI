@@ -13,4 +13,5 @@ public interface VehicleDao {
     List<Vehicle> getVehiclesByMilage(int dealershipID, int min, int max);
     List<Vehicle> getVehiclesByType(int dealershipID, String type);
     Vehicle insert(int dealershipID, Vehicle vehicle);
+    void delete(int dealershipID, Vehicle vehicle);
 }
