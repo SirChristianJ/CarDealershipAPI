@@ -8,13 +8,10 @@ public class Dealership {
     private String address;
     private String phone;
 
+    public Dealership(){}
+
     public Dealership(int id, String name, String address, String phone) {
         this.id =id;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-    }
-    public Dealership(String name, String address, String phone) {
         this.name = name;
         this.address = address;
         this.phone = phone;

@@ -12,4 +12,5 @@ public interface VehicleDao {
     List<Vehicle> getVehiclesByColor(int dealershipID, String color);
     List<Vehicle> getVehiclesByMilage(int dealershipID, int min, int max);
     List<Vehicle> getVehiclesByType(int dealershipID, String type);
+    Vehicle insert(int dealershipID, Vehicle vehicle);
 }

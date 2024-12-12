@@ -1,6 +1,7 @@
 package com.pluralsight.CarDealershipAPI.Dao.impl;
 
 import com.pluralsight.CarDealershipAPI.Dao.interfaces.VehicleDao;
+import com.pluralsight.CarDealershipAPI.Dao.wrapper.Inventory;
 import com.pluralsight.CarDealershipAPI.models.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -244,6 +245,55 @@ public class JdbcVehicleDao implements VehicleDao {
         vehicleList = executeQuery(sql, dealershipID, type);
 
         return vehicleList;
+    }
+
+    @Override
+    public Vehicle insert(int dealershipID, Vehicle v) {
+        String sqlquery1 =
+                """
+                    INSERT INTO cardealership.inventory(
+                        dealership_id, vin
+                    )
+                    VALUES (
+                        (?),(?)
+                    );
+                """;
+        String sqlquery2 =
+                """ 
+                    INSERT INTO cardealership.vehicles(
+                        vin, year, make, model, type, color, odometer, price, SOLD
+                    )
+                    VALUES (
+                        ?,?,?,?,?,?,?,?,null
+                    );
+                """;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sqlquery1);
+             PreparedStatement statement2 = connection.prepareStatement(sqlquery2)
+        ) {
+            //set parameters
+            statement.setInt(1, dealershipID);
+            statement.setString(2, v.getVin());
+
+            statement2.setString(1, v.getVin());
+            statement2.setInt(2, v.getYear());
+            statement2.setString(3, v.getMake());
+            statement2.setString(4, v.getModel());
+            statement2.setString(5, v.getVehicleType());
+            statement2.setString(6, v.getColor());
+            statement2.setInt(7, v.getOdometer());
+            statement2.setDouble(8, v.getPrice());
+
+            // update statement
+            int rows = statement.executeUpdate();
+            statement2.executeUpdate();
+            // confirm the update
+            System.out.printf("Rows updated %d\n", rows);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return v;
     }
 
 }

@@ -74,12 +74,13 @@ public class JdbcDealershipDao implements DealershipDao {
 
             System.out.printf("Rows updated: %d\n", rows);
 
+
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return new Dealership(dealership.getId(), dealership.getName(), dealership.getAddress(), dealership.getPhone());
+        return new Dealership(dealership.getId(), dealership.getName(), dealership.getAddress(),dealership.getPhone());
     }
 
 }
